@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+
+  db:
+    image: postgres:12-alpine
+    env_file:
+      - config/dev.env
+    ports:
+      - "5432:5432"
+    networks:
+      - dbnet
+
+  django:
+    build: .
+    env_file:
+      - config/dev.env
+    volumes:
+      - ./src:/app/src
+    networks:
+      - webnet
+      - dbnet
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src/static:/static
+      - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - django
+    networks:
+      - webnet
+
+networks:
+  dbnet:
+    driver: bridge
+  webnet:
+    driver: bridge

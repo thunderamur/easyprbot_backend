@@ -1,0 +1,16 @@
+[
+{
+  "model": "events.eventtype",
+  "pk": 1,
+  "fields": {
+    "name": "\u0412\u0441\u0442\u0440\u0435\u0447\u0430"
+  }
+},
+{
+  "model": "events.eventtype",
+  "pk": 2,
+  "fields": {
+    "name": "\u0417\u0432\u043e\u043d\u043e\u043a"
+  }
+}
+]
