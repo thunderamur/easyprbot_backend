@@ -15,13 +15,16 @@ class EventFilter(django_filters.FilterSet):
 
 
 class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
     filterset_class = EventFilter
 
     def get_serializer_class(self):
         if self.action in ('create', 'partial_update', 'update'):
             return EventCreateSerializer
         return EventDetailSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Event.objects.filter(user=user)
 
 
 class EventTypeViewSet(viewsets.ModelViewSet):
